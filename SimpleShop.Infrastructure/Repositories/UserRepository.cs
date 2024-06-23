@@ -1,10 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SimpleShop.Core.Entities;
 using SimpleShop.Core.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SimpleShop.Infrastructure.Repositories
@@ -20,12 +17,18 @@ namespace SimpleShop.Infrastructure.Repositories
 
         public async Task<User> GetUserByIdAsync(int id)
         {
-            return await _context.Users.FindAsync(id);
+            return await _context.Users
+                .Include(u => u.UserRoles)
+                .ThenInclude(ur => ur.Role)
+                .FirstOrDefaultAsync(u => u.Id == id);
         }
 
         public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.Users
+                .Include(u => u.UserRoles)
+                .ThenInclude(ur => ur.Role)
+                .ToListAsync();
         }
 
         public async Task AddUserAsync(User user)
@@ -42,7 +45,7 @@ namespace SimpleShop.Infrastructure.Repositories
 
         public async Task DeleteUserAsync(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await GetUserByIdAsync(id);
             if (user != null)
             {
                 _context.Users.Remove(user);

@@ -37,12 +37,15 @@ namespace SimpleShop.Infrastructure
 
                 if (!context.Users.Any())
                 {
+                    var adminRole = context.Roles.First(r => r.Name == "Admin");
+                    var userRole = context.Roles.First(r => r.Name == "User");
+
                     var users = new List<User>
                     {
                         new User
                         {
-                            Username = "user1",
-                            Password = "password1",
+                            Username = "admin",
+                            Password = "admin123",
                             Orders = new List<Order>
                             {
                                 new Order
@@ -55,7 +58,29 @@ namespace SimpleShop.Infrastructure
                                             Product = context.Products.First(p => p.Name == "Product1"),
                                             Quantity = 1,
                                             UnitPrice = 10.99M
-                                        },
+                                        }
+                                    }
+                                }
+                            },
+                            UserRoles = new List<UserRole>
+                            {
+                                new UserRole
+                                {
+                                    Role = adminRole
+                                }
+                            }
+                        },
+                        new User
+                        {
+                            Username = "user",
+                            Password = "user123",
+                            Orders = new List<Order>
+                            {
+                                new Order
+                                {
+                                    OrderDate = DateTime.Now,
+                                    OrderDetails = new List<OrderDetail>
+                                    {
                                         new OrderDetail
                                         {
                                             Product = context.Products.First(p => p.Name == "Product2"),
@@ -69,35 +94,7 @@ namespace SimpleShop.Infrastructure
                             {
                                 new UserRole
                                 {
-                                    Role = context.Roles.First(r => r.Name == "Admin")
-                                }
-                            }
-                        },
-                        new User
-                        {
-                            Username = "user2",
-                            Password = "password2",
-                            Orders = new List<Order>
-                            {
-                                new Order
-                                {
-                                    OrderDate = DateTime.Now,
-                                    OrderDetails = new List<OrderDetail>
-                                    {
-                                        new OrderDetail
-                                        {
-                                            Product = context.Products.First(p => p.Name == "Product3"),
-                                            Quantity = 1,
-                                            UnitPrice = 20.99M
-                                        }
-                                    }
-                                }
-                            },
-                            UserRoles = new List<UserRole>
-                            {
-                                new UserRole
-                                {
-                                    Role = context.Roles.First(r => r.Name == "User")
+                                    Role = userRole
                                 }
                             }
                         }

@@ -12,8 +12,8 @@ using SimpleShop.Infrastructure;
 namespace SimpleShop.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240623112559_init")]
-    partial class init
+    [Migration("20240623093228_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

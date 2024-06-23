@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SimpleShop.Application.Interfaces;
 using SimpleShop.Core.Entities;
 using System.Collections.Generic;
@@ -17,7 +16,7 @@ namespace SimpleShop.API.Controllers
         {
             _roleService = roleService;
         }
-        [Authorize(Roles = "Admin")]
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetRoleById(int id)
         {
@@ -28,21 +27,21 @@ namespace SimpleShop.API.Controllers
             }
             return Ok(role);
         }
-        [Authorize(Roles = "Admin")]
+
         [HttpGet]
         public async Task<IActionResult> GetAllRoles()
         {
             var roles = await _roleService.GetAllRolesAsync();
             return Ok(roles);
         }
-        [Authorize(Roles = "Admin")]
+
         [HttpPost]
         public async Task<IActionResult> AddRole(Role role)
         {
             await _roleService.AddRoleAsync(role);
             return CreatedAtAction(nameof(GetRoleById), new { id = role.Id }, role);
         }
-        [Authorize(Roles = "Admin")]
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateRole(int id, Role role)
         {
@@ -53,7 +52,7 @@ namespace SimpleShop.API.Controllers
             await _roleService.UpdateRoleAsync(role);
             return NoContent();
         }
-        [Authorize(Roles = "Admin")]
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRole(int id)
         {

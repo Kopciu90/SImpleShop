@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SimpleShop.Application.Interfaces;
 using SimpleShop.Core.Entities;
 using System.Collections.Generic;
@@ -17,7 +16,7 @@ namespace SimpleShop.API.Controllers
         {
             _orderService = orderService;
         }
-        [Authorize(Roles = "User,Admin")]
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetOrderById(int id)
         {
@@ -28,21 +27,21 @@ namespace SimpleShop.API.Controllers
             }
             return Ok(order);
         }
-        [Authorize(Roles = "User,Admin")]
+
         [HttpGet]
         public async Task<IActionResult> GetAllOrders()
         {
             var orders = await _orderService.GetAllOrdersAsync();
             return Ok(orders);
         }
-        [Authorize(Roles = "User,Admin")]
+
         [HttpPost]
         public async Task<IActionResult> AddOrder(Order order)
         {
             await _orderService.AddOrderAsync(order);
             return CreatedAtAction(nameof(GetOrderById), new { id = order.Id }, order);
         }
-        [Authorize(Roles = "User,Admin")]
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateOrder(int id, Order order)
         {
@@ -53,7 +52,7 @@ namespace SimpleShop.API.Controllers
             await _orderService.UpdateOrderAsync(order);
             return NoContent();
         }
-        [Authorize(Roles = "Admin")]
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOrder(int id)
         {

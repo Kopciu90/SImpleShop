@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SimpleShop.Application.Interfaces;
 using SimpleShop.Core.Entities;
 using System.Collections.Generic;
@@ -17,7 +16,7 @@ namespace SimpleShop.API.Controllers
         {
             _orderDetailService = orderDetailService;
         }
-        [Authorize(Roles = "User,Admin")]
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetOrderDetailById(int id)
         {
@@ -28,21 +27,21 @@ namespace SimpleShop.API.Controllers
             }
             return Ok(orderDetail);
         }
-        [Authorize(Roles = "User,Admin")]
+
         [HttpGet]
         public async Task<IActionResult> GetAllOrderDetails()
         {
             var orderDetails = await _orderDetailService.GetAllOrderDetailsAsync();
             return Ok(orderDetails);
         }
-        [Authorize(Roles = "User,Admin")]
+
         [HttpPost]
         public async Task<IActionResult> AddOrderDetail(OrderDetail orderDetail)
         {
             await _orderDetailService.AddOrderDetailAsync(orderDetail);
             return CreatedAtAction(nameof(GetOrderDetailById), new { id = orderDetail.Id }, orderDetail);
         }
-        [Authorize(Roles = "User,Admin")]
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateOrderDetail(int id, OrderDetail orderDetail)
         {
@@ -53,7 +52,7 @@ namespace SimpleShop.API.Controllers
             await _orderDetailService.UpdateOrderDetailAsync(orderDetail);
             return NoContent();
         }
-        [Authorize(Roles = "Admin")]
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOrderDetail(int id)
         {

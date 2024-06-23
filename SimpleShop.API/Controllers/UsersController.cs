@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SimpleShop.Application.Interfaces;
 using SimpleShop.Core.Entities;
 using System.Collections.Generic;
@@ -17,7 +16,7 @@ namespace SimpleShop.API.Controllers
         {
             _userService = userService;
         }
-        [Authorize(Roles = "Admin")]
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUserById(int id)
         {
@@ -28,21 +27,21 @@ namespace SimpleShop.API.Controllers
             }
             return Ok(user);
         }
-        [Authorize(Roles = "Admin")]
+
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
         {
             var users = await _userService.GetAllUsersAsync();
             return Ok(users);
         }
-        [Authorize(Roles = "Admin")]
+
         [HttpPost]
         public async Task<IActionResult> AddUser(User user)
         {
             await _userService.AddUserAsync(user);
             return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, user);
         }
-        [Authorize(Roles = "Admin")]
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(int id, User user)
         {
@@ -53,7 +52,7 @@ namespace SimpleShop.API.Controllers
             await _userService.UpdateUserAsync(user);
             return NoContent();
         }
-        [Authorize(Roles = "Admin")]
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {

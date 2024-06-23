@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SimpleShop.Core.Entities;
-using System.Collections.Generic;
-using System.Reflection.Emit;
 
 namespace SimpleShop.Infrastructure
 {
@@ -23,25 +21,22 @@ namespace SimpleShop.Infrastructure
         {
             base.OnModelCreating(modelBuilder);
 
-            // Configure User - Order relationship
+            // Configure relationships
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Orders)
                 .WithOne(o => o.User)
                 .HasForeignKey(o => o.UserId);
 
-            // Configure Order - OrderDetail relationship
             modelBuilder.Entity<Order>()
                 .HasMany(o => o.OrderDetails)
                 .WithOne(od => od.Order)
                 .HasForeignKey(od => od.OrderId);
 
-            // Configure Product - OrderDetail relationship
             modelBuilder.Entity<Product>()
                 .HasMany(p => p.OrderDetails)
                 .WithOne(od => od.Product)
                 .HasForeignKey(od => od.ProductId);
 
-            // Configure UserRole composite key
             modelBuilder.Entity<UserRole>()
                 .HasKey(ur => new { ur.UserId, ur.RoleId });
 
@@ -54,6 +49,15 @@ namespace SimpleShop.Infrastructure
                 .HasOne(ur => ur.Role)
                 .WithMany(r => r.UserRoles)
                 .HasForeignKey(ur => ur.RoleId);
+
+            // Specify decimal properties
+            modelBuilder.Entity<OrderDetail>()
+                .Property(od => od.UnitPrice)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<Product>()
+                .Property(p => p.Price)
+                .HasColumnType("decimal(18,2)");
         }
     }
 }

@@ -45,10 +45,11 @@ SimpleShop.API
 
 Wykonaj migracje bazy danych:
 
+Wybierz startup project jako Simpleshop.API
+W Package menager console wybierz SimpleShop.Infrastructure
 
-cd SimpleShop.Infrastructure
-dotnet ef migrations add InitialCreate -c ApplicationDbContext
-dotnet ef database update -c ApplicationDbContext
+W konsoli wpisz polecenia add-migration init
+a nastepnie update-database
 
 Uruchomienie Projektu
 Otwórz rozwiązanie w Visual Studio 2022.

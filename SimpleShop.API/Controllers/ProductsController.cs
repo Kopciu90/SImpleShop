@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SimpleShop.Application.Interfaces;
 using SimpleShop.Core.Entities;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace SimpleShop.API.Controllers
         {
             _productService = productService;
         }
-
+        [Authorize(Roles = "User,Admin")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProductById(int id)
         {
@@ -27,21 +28,21 @@ namespace SimpleShop.API.Controllers
             }
             return Ok(product);
         }
-
+        [Authorize(Roles = "User,Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAllProducts()
         {
             var products = await _productService.GetAllProductsAsync();
             return Ok(products);
         }
-
+        [Authorize(Roles = "User,Admin")]
         [HttpPost]
         public async Task<IActionResult> AddProduct(Product product)
         {
             await _productService.AddProductAsync(product);
             return CreatedAtAction(nameof(GetProductById), new { id = product.Id }, product);
         }
-
+        [Authorize(Roles = "User,Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProduct(int id, Product product)
         {
@@ -52,7 +53,7 @@ namespace SimpleShop.API.Controllers
             await _productService.UpdateProductAsync(product);
             return NoContent();
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {

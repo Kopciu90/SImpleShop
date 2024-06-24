@@ -46,8 +46,8 @@ SimpleShop.API
 Wykonaj migracje bazy danych:
 
 Wybierz startup project jako Simpleshop.API
+Usuń folder migrations (Jeśli istnieje).
 W Package menager console wybierz SimpleShop.Infrastructure
-
 W konsoli wpisz polecenia add-migration init
 a nastepnie update-database
 
